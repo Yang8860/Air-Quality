@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Air Quality Monitor</title>
+<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600&family=Prompt:wght@400;500;600;700&family=Fredoka:wght@600&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg-main: #fff0f5;
+    --text-dark: #4a3e3d;
+    --text-light: #9e7a85;
+    
+    --pink-primary: #ff758f;
+    --pink-soft: #ffb3c1;
+    --pink-bg: #fff0f3;
+    --pink-border: #ffccd5;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Mitr', 'Prompt', sans-serif;
+}
+
+body {
+    background-color: var(--bg-main);
+    background-image: 
+        radial-gradient(#ffccd5 2px, transparent 2px);
+    background-size: 28px 28px;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.dashboard {
+    width: 100%;
+    max-width: 1100px;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(135deg, #ffffff 0%, #fff5f8 100%);
+    border: 5px solid var(--pink-border);
+    border-radius: 36px;
+    padding: 24px 32px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 20px 40px rgba(255, 117, 143, 0.15);
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    height: 12%;
+}
+
+.title-box {
+    background: #ffffff;
+    padding: 6px 30px;
+    border-radius: 40px;
+    border: 2px dashed var(--pink-primary);
+    box-shadow: 0 4px 12px rgba(255, 117, 143, 0.12);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.title {
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: #ff4d6d;
+    letter-spacing: 0.5px;
+}
+
+.main {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: 24px;
+    height: 84%;
+    position: relative;
+    z-index: 2;
+    align-items: center;
+}
+
+.status-card {
+    background: linear-gradient(180deg, #ffffff 0%, #fff0f3 100%);
+    border: 3.5px solid var(--pink-border);
+    border-radius: 32px;
+    height: 100%;
+    padding: 16px;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 10px 25px rgba(255, 182, 193, 0.2);
+}
+
+.emoji-wrap {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    width: 100%;
+}
+
+.emoji-bg-glow {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(255, 182, 193, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    z-index: 0;
+    animation: pulseGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes pulseGlow {
+    0% { transform: scale(0.95); opacity: 0.6; }
+    100% { transform: scale(1.1); opacity: 0.9; }
+}
+
+.emoji {
+    font-size: 260px;
+    line-height: 1;
+    position: relative;
+    z-index: 1;
+    animation: cartoonHop 2.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.06));
+}
+
+@keyframes cartoonHop {
+    0%, 100% { transform: translateY(0) scale(1, 1); }
+    30% { transform: translateY(-10px) scale(0.97, 1.03); }
+    50% { transform: translateY(0) scale(1.03, 0.97); }
+    65% { transform: translateY(-4px) scale(0.99, 1.01); }
+}
+
+.status-badge {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid var(--pink-border);
+    padding: 8px 24px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+    margin-bottom: 6px;
+    width: 90%;
+}
+
+.status-text {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #ff4d6d;
+    transition: color 0.8s ease;
+}
+
+.sensor-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    height: 100%;
+}
+
+.sensor {
+    background: linear-gradient(135deg, #ffffff 0%, #fff7f9 100%);
+    border: 3.5px solid var(--pink-border);
+    border-radius: 26px;
+    padding: 14px 18px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(255, 182, 193, 0.15);
+}
+
+.sensor-header {
+    position: absolute;
+    top: 14px;
+    left: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 2;
+}
+
+.sensor-icon-bg {
+    background: #fff0f3;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    border: 1px solid #ffccd5;
+}
+
+.sensor-name {
+    color: var(--text-dark);
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+.sensor-body {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 4px;
+}
+
+.sensor-value {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #ff4d6d;
+    font-family: 'Fredoka', 'Mitr', sans-serif;
+    line-height: 1;
+    transition: color 0.8s ease;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.sensor-unit-badge {
+    background: #fff0f3;
+    border: 1.5px solid #ffccd5;
+    padding: 2px 12px;
+    border-radius: 12px;
+    margin-left: 0;
+    display: inline-block;
+}
+
+.sensor-unit {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    font-weight: 600;
+}
+</style>
+</head>
+<body>
+
+<div class="dashboard">
+
+    <div class="header">
+        <div class="title-box">
+            <div class="title">คุณภาพอากาศภายในอาคาร</div>
+        </div>
+    </div>
+
+    <div class="main">
+
+        <div class="status-card">
+            <div class="emoji-wrap">
+                <div class="emoji-bg-glow"></div>
+                <div id="emoji" class="emoji">⏳</div>
+            </div>
+
+            <div class="status-badge">
+                <div id="statusText" class="status-text">
+                    กำลังเชื่อมต่อข้อมูล
+                </div>
+            </div>
+        </div>
+
+        <div class="sensor-grid">
+
+            <div class="sensor">
+                <div class="sensor-header">
+                    <div class="sensor-icon-bg">💨</div>
+                    <span class="sensor-name">ฝุ่น PM2.5</span>
+                </div>
+                <div class="sensor-body">
+                    <span class="sensor-value" id="pm25">--</span>
+                    <div class="sensor-unit-badge">
+                        <span class="sensor-unit">µg/m³</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sensor">
+                <div class="sensor-header">
+                    <div class="sensor-icon-bg">🌱</div>
+                    <span class="sensor-name">คาร์บอน CO₂</span>
+                </div>
+                <div class="sensor-body">
+                    <span class="sensor-value" id="co2">--</span>
+                    <div class="sensor-unit-badge">
+                        <span class="sensor-unit">ppm</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sensor">
+                <div class="sensor-header">
+                    <div class="sensor-icon-bg">🌡️</div>
+                    <span class="sensor-name">อุณหภูมิ</span>
+                </div>
+                <div class="sensor-body">
+                    <span class="sensor-value" id="temp">--</span>
+                    <div class="sensor-unit-badge">
+                        <span class="sensor-unit">°C</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sensor">
+                <div class="sensor-header">
+                    <div class="sensor-icon-bg">💧</div>
+                    <span class="sensor-name">ความชื้น</span>
+                </div>
+                <div class="sensor-body">
+                    <span class="sensor-value" id="rh">--</span>
+                    <div class="sensor-unit-badge">
+                        <span class="sensor-unit">%RH</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBfPpj3DrWTfQm6E6PtD3OtEKZDbeCsH-M",
+        authDomain: "air-quality-725ca.firebaseapp.com",
+        databaseURL: "https://air-quality-725ca-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "air-quality-725ca",
+        storageBucket: "air-quality-725ca.firebasestorage.app",
+        messagingSenderId: "178960255123",
+        appId: "1:178960255123:web:b6ebfbc0fa311383186566",
+        measurementId: "G-6PJWCY3M3Y"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    let PM25 = 0;
+    let CO2 = 0;
+    let TEMP = 0;
+    let RH = 0;
+
+    function getPm25Color(val) {
+        if (val <= 12) return "#00b4d8";      
+        if (val <= 25) return "#10b981";      
+        if (val <= 35) return "#f97316";      
+        return "#ef4444";                     
+    }
+
+    function getCo2Color(val) {
+        if (val <= 600) return "#10b981";     
+        if (val <= 800) return "#eab308";     
+        if (val <= 1000) return "#f97316";    
+        return "#ef4444";                     
+    }
+
+    function getTempColor(val) {
+        if (val < 21) return "#00b4d8";       
+        if (val <= 24) return "#10b981";      
+        if (val <= 26) return "#eab308";      
+        return "#ef4444";                     
+    }
+
+    function getRhColor(val) {
+        if (val < 40) return "#f97316";       
+        if (val <= 60) return "#10b981";      
+        if (val <= 70) return "#eab308";      
+        return "#ef4444";                     
+    }
+
+    function updateSensorUI() {
+        document.getElementById("pm25").innerText = PM25;
+        document.getElementById("co2").innerText = Math.round(CO2);
+        document.getElementById("temp").innerText = typeof TEMP === 'number' ? TEMP.toFixed(1) : TEMP;
+        document.getElementById("rh").innerText = typeof RH === 'number' ? RH.toFixed(1) : RH;
+
+        document.getElementById("pm25").style.color = getPm25Color(PM25);
+        document.getElementById("co2").style.color = getCo2Color(CO2);
+        document.getElementById("temp").style.color = getTempColor(TEMP);
+        document.getElementById("rh").style.color = getRhColor(RH);
+    }
+
+    function calculateAirQuality() {
+        let emoji = "😁";
+        let text = "อากาศดีเยี่ยม";
+        let statusColor = "#10b981";
+
+        if (PM25 > 35 || CO2 > 1000) {
+            emoji = "🙁";
+            text = "อันตรายต่อสุขภาพ";
+            statusColor = "#ef4444";
+        }
+        else if (PM25 > 25 || CO2 > 1000) {
+            emoji = "😐";
+            text = "อากาศเริ่มไม่ดี";
+            statusColor = "#f97316";
+        }
+        else if (PM25 > 15.1 || CO2 > 800) {
+            emoji = "🙂";
+            text = "อากาศปานกลาง";
+            statusColor = "#eab308";
+        }
+        else if (PM25 > 15 || CO2 > 600) {
+            emoji = "☺️";
+            text = "อากาศดี";
+            statusColor = "#10b981";
+        }
+        else {
+            emoji = "😁";
+            text = "อากาศดีเยี่ยม";
+            statusColor = "#00b4d8";
+        }
+
+        document.getElementById("emoji").innerHTML = emoji;
+        document.getElementById("statusText").innerHTML = text;
+        document.getElementById("statusText").style.color = statusColor;
+    }
+
+    const envRef = ref(database, 'Environment/Current'); 
+
+    onValue(envRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+            PM25 = data.pm25 !== undefined ? data.pm25 : 0;
+            CO2 = data.co2 !== undefined ? data.co2 : 0;
+            TEMP = data.temperature !== undefined ? data.temperature : 0;
+            RH = data.humidity !== undefined ? data.humidity : 0;
+
+            updateSensorUI();
+            calculateAirQuality();
+        }
+    });
+</script>
+
+</body>
+</html>
