@@ -104,6 +104,7 @@ body {
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 10px 25px rgba(255, 182, 193, 0.2);
+    overflow: hidden;
 }
 
 .emoji-wrap {
@@ -113,12 +114,13 @@ body {
     align-items: center;
     flex-grow: 1;
     width: 100%;
+    overflow: hidden;
 }
 
 .emoji-bg-glow {
     position: absolute;
-    width: 250px;
-    height: 250px;
+    width: 320px;
+    height: 320px;
     background: radial-gradient(circle, rgba(255, 182, 193, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
     border-radius: 50%;
     z-index: 0;
@@ -130,13 +132,17 @@ body {
     100% { transform: scale(1.1); opacity: 0.9; }
 }
 
+/* ขนาดรูปภาพ 512px */
 .emoji {
-    font-size: 260px;
-    line-height: 1;
+    width: 512px;
+    height: 512px;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
     position: relative;
     z-index: 1;
     animation: cartoonHop 2.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
-    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.06));
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.08));
 }
 
 @keyframes cartoonHop {
@@ -154,6 +160,7 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
     margin-bottom: 6px;
     width: 90%;
+    z-index: 2;
 }
 
 .status-text {
@@ -262,7 +269,7 @@ body {
         <div class="status-card">
             <div class="emoji-wrap">
                 <div class="emoji-bg-glow"></div>
-                <div id="emoji" class="emoji">⏳</div>
+                <img id="emoji" class="emoji" src="1.png" alt="Status Image">
             </div>
 
             <div class="status-badge">
@@ -395,37 +402,37 @@ body {
     }
 
     function calculateAirQuality() {
-        let emoji = "😁";
+        let imgPath = "1.png";
         let text = "อากาศดีเยี่ยม";
-        let statusColor = "#10b981";
+        let statusColor = "#00b4d8";
 
         if (PM25 > 35 || CO2 > 1000) {
-            emoji = "🙁";
+            imgPath = "5.png";
             text = "อันตรายต่อสุขภาพ";
             statusColor = "#ef4444";
         }
         else if (PM25 > 25 || CO2 > 1000) {
-            emoji = "😐";
+            imgPath = "4.png";
             text = "อากาศเริ่มไม่ดี";
             statusColor = "#f97316";
         }
         else if (PM25 > 15.1 || CO2 > 800) {
-            emoji = "🙂";
+            imgPath = "3.png";
             text = "อากาศปานกลาง";
             statusColor = "#eab308";
         }
         else if (PM25 > 15 || CO2 > 600) {
-            emoji = "☺️";
+            imgPath = "2.png";
             text = "อากาศดี";
             statusColor = "#10b981";
         }
         else {
-            emoji = "😁";
+            imgPath = "1.png";
             text = "อากาศดีเยี่ยม";
             statusColor = "#00b4d8";
         }
 
-        document.getElementById("emoji").innerHTML = emoji;
+        document.getElementById("emoji").src = imgPath;
         document.getElementById("statusText").innerHTML = text;
         document.getElementById("statusText").style.color = statusColor;
     }
