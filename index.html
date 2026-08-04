@@ -29,29 +29,30 @@ body {
     background-image: 
         radial-gradient(#ffccd5 2px, transparent 2px);
     background-size: 28px 28px;
-    height: 100vh;
+    min-height: 100vh;
     width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
-    overflow: hidden;
+    padding: 30px;
+    overflow: auto; /* อนุญาตให้สกรูลได้กรณีหน้าจอเล็กกว่าขนาดกรอบใหม่ */
 }
 
+/* ปรับขนาดกรอบ Dashboard เป็น 150% (max-width: 1650px) */
 .dashboard {
     width: 100%;
-    max-width: 1100px;
+    max-width: 1650px;
     aspect-ratio: 16 / 9;
     background: linear-gradient(135deg, #ffffff 0%, #fff5f8 100%);
-    border: 5px solid var(--pink-border);
-    border-radius: 36px;
-    padding: 24px 32px;
+    border: 8px solid var(--pink-border);
+    border-radius: 54px;
+    padding: 36px 48px;
     position: relative;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    box-shadow: 0 20px 40px rgba(255, 117, 143, 0.15);
+    box-shadow: 0 30px 60px rgba(255, 117, 143, 0.15);
 }
 
 .header {
@@ -65,17 +66,17 @@ body {
 
 .title-box {
     background: #ffffff;
-    padding: 6px 30px;
-    border-radius: 40px;
-    border: 2px dashed var(--pink-primary);
-    box-shadow: 0 4px 12px rgba(255, 117, 143, 0.12);
+    padding: 9px 45px;
+    border-radius: 60px;
+    border: 3px dashed var(--pink-primary);
+    box-shadow: 0 6px 18px rgba(255, 117, 143, 0.12);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
 }
 
 .title {
-    font-size: 1.7rem;
+    font-size: 2.5rem; /* ขยายขนาดหัวข้อ */
     font-weight: 600;
     color: #ff4d6d;
     letter-spacing: 0.5px;
@@ -84,7 +85,7 @@ body {
 .main {
     display: grid;
     grid-template-columns: 1fr 1.25fr;
-    gap: 24px;
+    gap: 36px;
     height: 84%;
     position: relative;
     z-index: 2;
@@ -93,17 +94,17 @@ body {
 
 .status-card {
     background: linear-gradient(180deg, #ffffff 0%, #fff0f3 100%);
-    border: 3.5px solid var(--pink-border);
-    border-radius: 32px;
+    border: 5px solid var(--pink-border);
+    border-radius: 48px;
     height: 100%;
-    padding: 16px;
+    padding: 24px;
     text-align: center;
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 10px 25px rgba(255, 182, 193, 0.2);
+    box-shadow: 0 15px 38px rgba(255, 182, 193, 0.2);
     overflow: hidden;
 }
 
@@ -119,8 +120,8 @@ body {
 
 .emoji-bg-glow {
     position: absolute;
-    width: 320px;
-    height: 320px;
+    width: 480px;
+    height: 480px;
     background: radial-gradient(circle, rgba(255, 182, 193, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
     border-radius: 50%;
     z-index: 0;
@@ -132,39 +133,38 @@ body {
     100% { transform: scale(1.1); opacity: 0.9; }
 }
 
-/* ขนาดรูปภาพ 512px */
 .emoji {
-    width: 512px;
-    height: 512px;
+    width: 768px;
+    height: 768px;
     max-width: 100%;
-    max-height: 100%;
+    max-height: 150%;
     object-fit: contain;
     position: relative;
     z-index: 1;
     animation: cartoonHop 2.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
-    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.08));
+    filter: drop-shadow(0 15px 22px rgba(0,0,0,0.08));
 }
 
 @keyframes cartoonHop {
     0%, 100% { transform: translateY(0) scale(1, 1); }
-    30% { transform: translateY(-10px) scale(0.97, 1.03); }
+    30% { transform: translateY(-15px) scale(0.97, 1.03); }
     50% { transform: translateY(0) scale(1.03, 0.97); }
-    65% { transform: translateY(-4px) scale(0.99, 1.01); }
+    65% { transform: translateY(-6px) scale(0.99, 1.01); }
 }
 
 .status-badge {
     background: rgba(255, 255, 255, 0.9);
-    border: 2px solid var(--pink-border);
-    padding: 8px 24px;
-    border-radius: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
-    margin-bottom: 6px;
+    border: 3px solid var(--pink-border);
+    padding: 12px 36px;
+    border-radius: 30px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.03);
+    margin-bottom: 9px;
     width: 90%;
     z-index: 2;
 }
 
 .status-text {
-    font-size: 1.5rem;
+    font-size: 2.25rem; /* ขยายข้อความสถานะ */
     font-weight: 600;
     color: #ff4d6d;
     transition: color 0.8s ease;
@@ -173,45 +173,45 @@ body {
 .sensor-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    gap: 24px;
     height: 100%;
 }
 
 .sensor {
     background: linear-gradient(135deg, #ffffff 0%, #fff7f9 100%);
-    border: 3.5px solid var(--pink-border);
-    border-radius: 26px;
-    padding: 14px 18px;
+    border: 5px solid var(--pink-border);
+    border-radius: 39px;
+    padding: 21px 27px;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 8px 20px rgba(255, 182, 193, 0.15);
+    box-shadow: 0 12px 30px rgba(255, 182, 193, 0.15);
 }
 
 .sensor-header {
     position: absolute;
-    top: 14px;
-    left: 18px;
+    top: 21px;
+    left: 27px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
     z-index: 2;
 }
 
 .sensor-icon-bg {
     background: #fff0f3;
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
+    width: 51px;
+    height: 51px;
+    border-radius: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
-    border: 1px solid #ffccd5;
+    font-size: 1.8rem;
+    border: 1.5px solid #ffccd5;
 }
 
 .sensor-name {
     color: var(--text-dark);
-    font-size: 1.15rem;
+    font-size: 1.7rem; /* ขยายชื่อเซนเซอร์ */
     font-weight: 600;
 }
 
@@ -225,30 +225,30 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
-    gap: 4px;
+    gap: 6px;
 }
 
 .sensor-value {
-    font-size: 3rem;
+    font-size: 4.5rem; /* ขยายขนาดตัวเลขค่าเซนเซอร์ */
     font-weight: 700;
     color: #ff4d6d;
     font-family: 'Fredoka', 'Mitr', sans-serif;
     line-height: 1;
     transition: color 0.8s ease;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    text-shadow: 0 3px 12px rgba(0,0,0,0.04);
 }
 
 .sensor-unit-badge {
     background: #fff0f3;
-    border: 1.5px solid #ffccd5;
-    padding: 2px 12px;
-    border-radius: 12px;
+    border: 2px solid #ffccd5;
+    padding: 3px 18px;
+    border-radius: 18px;
     margin-left: 0;
     display: inline-block;
 }
 
 .sensor-unit {
-    font-size: 0.85rem;
+    font-size: 1.25rem; /* ขยายขนาดหน่วย */
     color: var(--text-light);
     font-weight: 600;
 }
@@ -376,10 +376,14 @@ body {
     }
 
     function getTempColor(val) {
-        if (val < 21) return "#00b4d8";       
-        if (val <= 24) return "#10b981";      
-        if (val <= 26) return "#eab308";      
-        return "#ef4444";                     
+        const minTemp = 18;
+        const maxTemp = 32;
+
+        let clamped = Math.max(minTemp, Math.min(maxTemp, val));
+        let ratio = (clamped - minTemp) / (maxTemp - minTemp);
+        let hue = 240 - (ratio * 240);
+
+        return `hsl(${hue}, 85%, 45%)`;
     }
 
     function getRhColor(val) {
