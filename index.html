@@ -1,500 +1,664 @@
-
+<!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Air Quality Monitor By.Yang</title>
-<link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600&family=Prompt:wght@400;500;600;700&family=Fredoka:wght@600&display=swap" rel="stylesheet">
-<style>
-:root {
-    --bg-main: #fff0f5;
-    --text-dark: #4a3e3d;
-    --text-light: #9e7a85;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Quality Monitor By.yang</title>
     
-    --pink-primary: #ff758f;
-    --pink-soft: #ffb3c1;
-    --pink-bg: #fff0f3;
-    --pink-border: #ffccd5;
-}
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600&family=Prompt:wght@400;500;600;700&family=Fredoka:wght@600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================
+           1. ROOT & GLOBAL STYLES (Pink Theme Backgrounds Only)
+           ========================================== */
+        :root {
+            /* เปลี่ยนเฉพาะสีธีมพื้นหลัง/กรอบเป็นสีชมพู */
+            --bg-main: #fff0f5;
+            --text-dark: #2b3a4a;
+            --text-light: #607d8b;
+            
+            --pink-primary: #ec4899;
+            --pink-dark: #db2777;
+            --pink-soft: #fbcfe8;
+            --pink-bg: #fce7f3;
+            --pink-border: #fbcfe8;
+        }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Mitr', 'Prompt', sans-serif;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Mitr', 'Prompt', sans-serif;
+        }
 
-body {
-    background-color: var(--bg-main);
-    background-image: 
-        radial-gradient(#ffccd5 2px, transparent 2px);
-    background-size: 28px 28px;
-    min-height: 100vh;
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 30px;
-    overflow: auto;
-}
+        body {
+            background-color: var(--bg-main);
+            background-image: radial-gradient(var(--pink-soft) 2px, transparent 2px);
+            background-size: 28px 28px;
+            min-height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            overflow: auto;
+        }
 
-.dashboard {
-    width: 100%;
-    max-width: 1650px;
-    aspect-ratio: 16 / 9;
-    background: linear-gradient(135deg, #ffffff 0%, #fff5f8 100%);
-    border: 8px solid var(--pink-border);
-    border-radius: 54px;
-    padding: 36px 48px;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-shadow: 0 30px 60px rgba(255, 117, 143, 0.15);
-}
+        /* ==========================================
+           2. MAIN LAYOUT
+           ========================================== */
+        .dashboard {
+            width: 100%;
+            max-width: 1650px;
+            aspect-ratio: 16 / 9;
+            background: linear-gradient(135deg, #ffffff 0%, #fff0f6 100%);
+            border: 8px solid var(--pink-border);
+            border-radius: 54px;
+            padding: 36px 48px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 30px 60px rgba(236, 72, 153, 0.15);
+        }
 
-.header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    z-index: 2;
-    height: 12%;
-}
+        /* ==========================================
+           3. HEADER SECTION
+           ========================================== */
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            height: 12%;
+        }
 
-.title-box {
-    background: #ffffff;
-    padding: 9px 45px;
-    border-radius: 60px;
-    border: 3px dashed var(--pink-primary);
-    box-shadow: 0 6px 18px rgba(255, 117, 143, 0.12);
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
+        .title-box {
+            background: #ffffff;
+            padding: 9px 45px;
+            border-radius: 60px;
+            border: 3px dashed var(--pink-primary);
+            box-shadow: 0 6px 18px rgba(236, 72, 153, 0.12);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-.title {
-    font-size: 2.5rem;
-    font-weight: 600;
-    color: #ff4d6d;
-    letter-spacing: 0.5px;
-}
+        .title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--pink-dark);
+            letter-spacing: 0.5px;
+        }
 
-/* ปรับขนาดตัวหนังสือวันที่และเวลาให้ขยายใหญ่เด่นชัดขึ้น */
-.datetime-box {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    background: #ffffff;
-    padding: 10px 28px;
-    border-radius: 35px;
-    border: 3px solid var(--pink-border);
-    box-shadow: 0 6px 16px rgba(255, 117, 143, 0.12);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 1.6rem; /* ขยายขนาดวันที่ */
-    font-weight: 600;
-    color: var(--text-dark);
-}
+        .datetime-box {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #ffffff;
+            padding: 10px 28px;
+            border-radius: 35px;
+            border: 3px solid var(--pink-border);
+            box-shadow: 0 6px 16px rgba(236, 72, 153, 0.12);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
 
-.datetime-box .time {
-    font-size: 1.8rem; /* ขยายขนาดตัวเลขเวลา */
-    font-weight: 700;
-    color: #ff4d6d;
-    font-family: 'Fredoka', 'Mitr', sans-serif;
-}
+        .datetime-box .time {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--pink-dark);
+            font-family: 'Fredoka', 'Mitr', sans-serif;
+        }
 
-.main {
-    display: grid;
-    grid-template-columns: 1fr 1.25fr;
-    gap: 36px;
-    height: 84%;
-    position: relative;
-    z-index: 2;
-    align-items: center;
-}
+        /* ==========================================
+           4. CONTENT AREA
+           ========================================== */
+        .main {
+            display: grid;
+            grid-template-columns: 1fr 1.25fr;
+            gap: 36px;
+            height: 84%;
+            position: relative;
+            z-index: 2;
+            align-items: center;
+        }
 
-.status-card {
-    background: linear-gradient(180deg, #ffffff 0%, #fff0f3 100%);
-    border: 5px solid var(--pink-border);
-    border-radius: 48px;
-    height: 100%;
-    padding: 24px;
-    text-align: center;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 15px 38px rgba(255, 182, 193, 0.2);
-    overflow: hidden;
-}
+        /* --- Status Card --- */
+        .status-card {
+            background: linear-gradient(180deg, #ffffff 0%, var(--pink-bg) 100%);
+            border: 5px solid var(--pink-border);
+            border-radius: 48px;
+            height: 100%;
+            padding: 24px;
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 15px 38px rgba(236, 72, 153, 0.15);
+            overflow: hidden;
+        }
 
-.emoji-wrap {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-grow: 1;
-    width: 100%;
-    overflow: hidden;
-}
+        .emoji-wrap {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            width: 100%;
+            overflow: hidden;
+        }
 
-.emoji-bg-glow {
-    position: absolute;
-    width: 480px;
-    height: 480px;
-    background: radial-gradient(circle, rgba(255, 182, 193, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
-    border-radius: 50%;
-    z-index: 0;
-    animation: pulseGlow 3s ease-in-out infinite alternate;
-}
+        .emoji-bg-glow {
+            position: absolute;
+            width: 480px;
+            height: 480px;
+            background: radial-gradient(circle, rgba(251, 207, 232, 0.6) 0%, rgba(255, 255, 255, 0) 70%);
+            border-radius: 50%;
+            z-index: 0;
+            animation: pulseGlow 3s ease-in-out infinite alternate;
+        }
 
-@keyframes pulseGlow {
-    0% { transform: scale(0.95); opacity: 0.6; }
-    100% { transform: scale(1.1); opacity: 0.9; }
-}
+        @keyframes pulseGlow {
+            0% { transform: scale(0.95); opacity: 0.6; }
+            100% { transform: scale(1.1); opacity: 0.9; }
+        }
 
-.emoji {
-    width: 768px;
-    height: 768px;
-    max-width: 100%;
-    max-height: 150%;
-    object-fit: contain;
-    position: relative;
-    z-index: 1;
-    animation: cartoonHop 2.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
-    filter: drop-shadow(0 15px 22px rgba(0,0,0,0.08));
-}
+        .emoji {
+            width: 768px;
+            height: 768px;
+            max-width: 100%;
+            max-height: 150%;
+            object-fit: contain;
+            position: relative;
+            z-index: 1;
+            animation: cartoonHop 2.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+            filter: drop-shadow(0 15px 22px rgba(0,0,0,0.08));
+        }
 
-@keyframes cartoonHop {
-    0%, 100% { transform: translateY(0) scale(1, 1); }
-    30% { transform: translateY(-15px) scale(0.97, 1.03); }
-    50% { transform: translateY(0) scale(1.03, 0.97); }
-    65% { transform: translateY(-6px) scale(0.99, 1.01); }
-}
+        @keyframes cartoonHop {
+            0%, 100% { transform: translateY(0) scale(1, 1); }
+            30% { transform: translateY(-15px) scale(0.97, 1.03); }
+            50% { transform: translateY(0) scale(1.03, 0.97); }
+            65% { transform: translateY(-6px) scale(0.99, 1.01); }
+        }
 
-.status-badge {
-    background: rgba(255, 255, 255, 0.9);
-    border: 3px solid var(--pink-border);
-    padding: 12px 36px;
-    border-radius: 30px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.03);
-    margin-bottom: 9px;
-    width: 90%;
-    z-index: 2;
-}
+        .status-badge {
+            background: rgba(255, 255, 255, 0.9);
+            border: 3px solid var(--pink-border);
+            padding: 12px 36px;
+            border-radius: 30px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.03);
+            margin-bottom: 9px;
+            width: 90%;
+            z-index: 2;
+        }
 
-.status-text {
-    font-size: 2.25rem;
-    font-weight: 600;
-    color: #ff4d6d;
-    transition: color 0.8s ease;
-}
+        .status-text {
+            font-size: 2.25rem;
+            font-weight: 600;
+            color: #0284c7; /* คงค่าเริ่มต้นแบบเดิม */
+            transition: color 0.8s ease;
+        }
 
-.sensor-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-    height: 100%;
-}
+        /* --- Sensor Grid --- */
+        .sensor-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            height: 100%;
+        }
 
-.sensor {
-    background: linear-gradient(135deg, #ffffff 0%, #fff7f9 100%);
-    border: 5px solid var(--pink-border);
-    border-radius: 39px;
-    padding: 21px 27px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 12px 30px rgba(255, 182, 193, 0.15);
-}
+        .sensor {
+            background: linear-gradient(135deg, #ffffff 0%, #fff0f6 100%);
+            border: 5px solid var(--pink-border);
+            border-radius: 39px;
+            padding: 21px 27px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(236, 72, 153, 0.12);
+        }
 
-.sensor-header {
-    position: absolute;
-    top: 21px;
-    left: 27px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    z-index: 2;
-}
+        .sensor-header {
+            position: absolute;
+            top: 21px;
+            left: 27px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 2;
+        }
 
-.sensor-icon-bg {
-    background: #fff0f3;
-    width: 51px;
-    height: 51px;
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    border: 1.5px solid #ffccd5;
-}
+        .sensor-icon-bg {
+            background: var(--pink-bg);
+            width: 51px;
+            height: 51px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            border: 1.5px solid var(--pink-border);
+        }
 
-.sensor-name {
-    color: var(--text-dark);
-    font-size: 1.7rem;
-    font-weight: 600;
-}
+        .sensor-name {
+            color: var(--text-dark);
+            font-size: 1.7rem;
+            font-weight: 600;
+        }
 
-.sensor-body {
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -40%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    gap: 6px;
-}
+        .sensor-body {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -40%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            gap: 6px;
+        }
 
-.sensor-value {
-    font-size: 4.5rem;
-    font-weight: 700;
-    color: #ff4d6d;
-    font-family: 'Fredoka', 'Mitr', sans-serif;
-    line-height: 1;
-    transition: color 0.8s ease;
-    text-shadow: 0 3px 12px rgba(0,0,0,0.04);
-}
+        .sensor-value {
+            font-size: 4.5rem;
+            font-weight: 700;
+            color: #0284c7; /* คงค่าเริ่มต้นแบบเดิม */
+            font-family: 'Fredoka', 'Mitr', sans-serif;
+            line-height: 1;
+            transition: color 0.8s ease;
+            text-shadow: 0 3px 12px rgba(0,0,0,0.04);
+        }
 
-.sensor-unit-badge {
-    background: #fff0f3;
-    border: 2px solid #ffccd5;
-    padding: 3px 18px;
-    border-radius: 18px;
-    margin-left: 0;
-    display: inline-block;
-}
+        .sensor-unit-badge {
+            background: var(--pink-bg);
+            border: 2px solid var(--pink-border);
+            padding: 3px 18px;
+            border-radius: 18px;
+            display: inline-block;
+        }
 
-.sensor-unit {
-    font-size: 1.25rem;
-    color: var(--text-light);
-    font-weight: 600;
-}
-</style>
+        .sensor-unit {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        /* ==========================================
+           5. RESPONSIVE DESIGN (Mobile & Tablet)
+           ========================================== */
+        @media (max-width: 900px) {
+            body {
+                padding: 12px;
+                align-items: flex-start;
+            }
+
+            .dashboard {
+                aspect-ratio: auto;
+                border-radius: 32px;
+                border-width: 5px;
+                padding: 20px 16px;
+                gap: 20px;
+            }
+
+            .header {
+                height: auto;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .title-box {
+                padding: 8px 24px;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .title {
+                font-size: 1.4rem;
+                text-align: center;
+            }
+
+            .datetime-box {
+                position: static;
+                transform: none;
+                width: 100%;
+                justify-content: center;
+                font-size: 1.1rem;
+                padding: 8px 16px;
+            }
+
+            .datetime-box .time {
+                font-size: 1.2rem;
+            }
+
+            .main {
+                grid-template-columns: 1fr;
+                height: auto;
+                gap: 20px;
+            }
+
+            .status-card {
+                height: auto;
+                padding: 20px 12px;
+                border-radius: 30px;
+            }
+
+            .emoji-wrap {
+                height: 220px;
+            }
+
+            .emoji-bg-glow {
+                width: 200px;
+                height: 200px;
+            }
+
+            .emoji {
+                width: 200px;
+                height: 200px;
+                max-height: 100%;
+            }
+
+            .status-badge {
+                padding: 8px 16px;
+                width: 100%;
+                margin-bottom: 0;
+            }
+
+            .status-text {
+                font-size: 1.3rem;
+            }
+
+            .sensor-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                height: auto;
+            }
+
+            .sensor {
+                padding: 16px;
+                height: 140px;
+                border-radius: 24px;
+                border-width: 3px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .sensor-header {
+                position: static;
+                width: 100%;
+                justify-content: center;
+                gap: 6px;
+            }
+
+            .sensor-icon-bg {
+                width: 32px;
+                height: 32px;
+                font-size: 1.1rem;
+                border-radius: 10px;
+            }
+
+            .sensor-name {
+                font-size: 1.0rem;
+            }
+
+            .sensor-body {
+                position: static;
+                transform: none;
+                width: 100%;
+                gap: 4px;
+            }
+
+            .sensor-value {
+                font-size: 2.2rem;
+            }
+
+            .sensor-unit-badge {
+                padding: 2px 10px;
+                border-radius: 12px;
+            }
+
+            .sensor-unit {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sensor-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<div class="dashboard">
+    <div class="dashboard">
+        <!-- HEADER -->
+        <header class="header">
+            <div class="title-box">
+                <h1 class="title">คุณภาพอากาศภายในอาคาร</h1>
+            </div>
+            <div class="datetime-box">
+                📅 <span id="currentDate">--/--/----</span>  
+                🕒 <span id="currentTime" class="time">--:--:--</span>
+            </div>
+        </header>
 
-    <div class="header">
-        <div class="title-box">
-            <div class="title">คุณภาพอากาศภายในอาคาร</div>
-        </div>
-        <div class="datetime-box">
-            📅 <span id="currentDate">--/--/----</span>  🕒 <span id="currentTime" class="time">--:--:--</span>
-        </div>
+        <!-- MAIN CONTENT -->
+        <main class="main">
+            <!-- STATUS CARD -->
+            <section class="status-card">
+                <div class="emoji-wrap">
+                    <div class="emoji-bg-glow"></div>
+                    <img id="emoji" class="emoji" src="1.png" alt="Status Image">
+                </div>
+                <div class="status-badge">
+                    <div id="statusText" class="status-text">
+                        กำลังเชื่อมต่อข้อมูล
+                    </div>
+                </div>
+            </section>
+
+            <!-- SENSOR GRID -->
+            <section class="sensor-grid">
+                <!-- PM2.5 -->
+                <div class="sensor">
+                    <div class="sensor-header">
+                        <div class="sensor-icon-bg">💨</div>
+                        <span class="sensor-name">ฝุ่น PM2.5</span>
+                    </div>
+                    <div class="sensor-body">
+                        <span class="sensor-value" id="pm25">--</span>
+                        <div class="sensor-unit-badge">
+                            <span class="sensor-unit">µg/m³</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CO2 -->
+                <div class="sensor">
+                    <div class="sensor-header">
+                        <div class="sensor-icon-bg">🌱</div>
+                        <span class="sensor-name">คาร์บอน CO₂</span>
+                    </div>
+                    <div class="sensor-body">
+                        <span class="sensor-value" id="co2">--</span>
+                        <div class="sensor-unit-badge">
+                            <span class="sensor-unit">ppm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Temperature -->
+                <div class="sensor">
+                    <div class="sensor-header">
+                        <div class="sensor-icon-bg">🌡️</div>
+                        <span class="sensor-name">อุณหภูมิ</span>
+                    </div>
+                    <div class="sensor-body">
+                        <span class="sensor-value" id="temp">--</span>
+                        <div class="sensor-unit-badge">
+                            <span class="sensor-unit">°C</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Humidity -->
+                <div class="sensor">
+                    <div class="sensor-header">
+                        <div class="sensor-icon-bg">💧</div>
+                        <span class="sensor-name">ความชื้น</span>
+                    </div>
+                    <div class="sensor-body">
+                        <span class="sensor-value" id="rh">--</span>
+                        <div class="sensor-unit-badge">
+                            <span class="sensor-unit">%RH</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
 
-    <div class="main">
+    <!-- FIREBASE & APPLICATION SCRIPT -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        <div class="status-card">
-            <div class="emoji-wrap">
-                <div class="emoji-bg-glow"></div>
-                <img id="emoji" class="emoji" src="1.png" alt="Status Image">
-            </div>
+        // 1. Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDOOY6wItzrFcQIZ6EuueD_ta7w5IRmuVU",
+            authDomain: "air-quality-dt.firebaseapp.com",
+            databaseURL: "https://air-quality-dt-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "air-quality-dt",
+            storageBucket: "air-quality-dt.firebasestorage.app",
+            messagingSenderId: "187480909170",
+            appId: "1:187480909170:web:7f50988c9de4975bd329eb",
+            measurementId: "G-S4QXG74T6F"
+        };
 
-            <div class="status-badge">
-                <div id="statusText" class="status-text">
-                    กำลังเชื่อมต่อข้อมูล
-                </div>
-            </div>
-        </div>
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
 
-        <div class="sensor-grid">
-
-            <div class="sensor">
-                <div class="sensor-header">
-                    <div class="sensor-icon-bg">💨</div>
-                    <span class="sensor-name">ฝุ่น PM2.5</span>
-                </div>
-                <div class="sensor-body">
-                    <span class="sensor-value" id="pm25">--</span>
-                    <div class="sensor-unit-badge">
-                        <span class="sensor-unit">µg/m³</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="sensor">
-                <div class="sensor-header">
-                    <div class="sensor-icon-bg">🌱</div>
-                    <span class="sensor-name">คาร์บอน CO₂</span>
-                </div>
-                <div class="sensor-body">
-                    <span class="sensor-value" id="co2">--</span>
-                    <div class="sensor-unit-badge">
-                        <span class="sensor-unit">ppm</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="sensor">
-                <div class="sensor-header">
-                    <div class="sensor-icon-bg">🌡️</div>
-                    <span class="sensor-name">อุณหภูมิ</span>
-                </div>
-                <div class="sensor-body">
-                    <span class="sensor-value" id="temp">--</span>
-                    <div class="sensor-unit-badge">
-                        <span class="sensor-unit">°C</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="sensor">
-                <div class="sensor-header">
-                    <div class="sensor-icon-bg">💧</div>
-                    <span class="sensor-name">ความชื้น</span>
-                </div>
-                <div class="sensor-body">
-                    <span class="sensor-value" id="rh">--</span>
-                    <div class="sensor-unit-badge">
-                        <span class="sensor-unit">%RH</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-</div>
-
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyBfPpj3DrWTfQm6E6PtD3OtEKZDbeCsH-M",
-        authDomain: "air-quality-725ca.firebaseapp.com",
-        databaseURL: "https://air-quality-725ca-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "air-quality-725ca",
-        storageBucket: "air-quality-725ca.firebasestorage.app",
-        messagingSenderId: "178960255123",
-        appId: "1:178960255123:web:b6ebfbc0fa311383186566",
-        measurementId: "G-6PJWCY3M3Y"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
-
-    // ฟังก์ชันอัปเดตวันและเวลา
-    function updateClock() {
-        const now = new Date();
-        const dateOptions = { year: 'numeric', month: 'short', day: 'numeric' };
-        document.getElementById("currentDate").innerText = now.toLocaleDateString('th-TH', dateOptions);
-        document.getElementById("currentTime").innerText = now.toLocaleTimeString('th-TH', { hour12: false });
-    }
-
-    setInterval(updateClock, 1000);
-    updateClock();
-
-    let PM25 = 0;
-    let CO2 = 0;
-    let TEMP = 0;
-    let RH = 0;
-
-    function getPm25Color(val) {
-        if (val <= 12) return "#00b4d8";      
-        if (val <= 25) return "#10b981";      
-        if (val <= 35) return "#f97316";      
-        return "#ef4444";                     
-    }
-
-    function getCo2Color(val) {
-        if (val <= 600) return "#10b981";     
-        if (val <= 800) return "#eab308";     
-        if (val <= 1000) return "#f97316";    
-        return "#ef4444";                     
-    }
-
-    function getTempColor(val) {
-        const minTemp = 18;
-        const maxTemp = 32;
-
-        let clamped = Math.max(minTemp, Math.min(maxTemp, val));
-        let ratio = (clamped - minTemp) / (maxTemp - minTemp);
-        let hue = 240 - (ratio * 240);
-
-        return `hsl(${hue}, 85%, 45%)`;
-    }
-
-    function getRhColor(val) {
-        if (val < 40) return "#f97316";       
-        if (val <= 60) return "#10b981";      
-        if (val <= 70) return "#eab308";      
-        return "#ef4444";                     
-    }
-
-    function updateSensorUI() {
-        document.getElementById("pm25").innerText = PM25;
-        document.getElementById("co2").innerText = Math.round(CO2);
-        document.getElementById("temp").innerText = typeof TEMP === 'number' ? TEMP.toFixed(1) : TEMP;
-        document.getElementById("rh").innerText = typeof RH === 'number' ? RH.toFixed(1) : RH;
-
-        document.getElementById("pm25").style.color = getPm25Color(PM25);
-        document.getElementById("co2").style.color = getCo2Color(CO2);
-        document.getElementById("temp").style.color = getTempColor(TEMP);
-        document.getElementById("rh").style.color = getRhColor(RH);
-    }
-
-    function calculateAirQuality() {
-        let imgPath = "1.png";
-        let text = "อากาศดีเยี่ยม";
-        let statusColor = "#00b4d8";
-
-        if (PM25 > 35 || CO2 > 1000) {
-            imgPath = "5.png";
-            text = "อันตรายต่อสุขภาพ";
-            statusColor = "#ef4444";
+        // 2. Real-time Clock Function
+        function updateClock() {
+            const now = new Date();
+            const dateOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+            document.getElementById("currentDate").innerText = now.toLocaleDateString('th-TH', dateOptions);
+            document.getElementById("currentTime").innerText = now.toLocaleTimeString('th-TH', { hour12: false });
         }
-        else if (PM25 > 25 || CO2 > 800) {
-            imgPath = "4.png";
-            text = "อากาศเริ่มไม่ดี";
-            statusColor = "#f97316";
-        }
-        else if (PM25 > 20 || CO2 > 600) {
-            imgPath = "3.png";
-            text = "อากาศปานกลาง";
-            statusColor = "#eab308";
-        }
-        else if (PM25 > 15 || CO2 > 400) {
-            imgPath = "2.png";
-            text = "อากาศดี";
-            statusColor = "#10b981";
-        }
-        else {
-            imgPath = "1.png";
-            text = "อากาศดีเยี่ยม";
-            statusColor = "#00b4d8";
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // 3. Sensor State Variables
+        let PM25 = 0;
+        let CO2 = 0;
+        let TEMP = 0;
+        let RH = 0;
+
+        // 4. Color Calculation Functions (คงค่าต้นฉบับดั้งเดิมตรงนี้)
+        function getPm25Color(val) {
+            if (val <= 12) return "#0284c7";
+            if (val <= 25) return "#10b981";
+            if (val <= 35) return "#f97316";
+            return "#ef4444";
         }
 
-        document.getElementById("emoji").src = imgPath;
-        document.getElementById("statusText").innerHTML = text;
-        document.getElementById("statusText").style.color = statusColor;
-    }
-
-    const envRef = ref(database, 'Environment/Current'); 
-
-    onValue(envRef, (snapshot) => {
-        const data = snapshot.val();
-        if (data) {
-            PM25 = data.pm25 !== undefined ? data.pm25 : 0;
-            CO2 = data.co2 !== undefined ? data.co2 : 0;
-            TEMP = data.temperature !== undefined ? data.temperature : 0;
-            RH = data.humidity !== undefined ? data.humidity : 0;
-
-            updateSensorUI();
-            calculateAirQuality();
+        function getCo2Color(val) {
+            if (val <= 600) return "#10b981";
+            if (val <= 800) return "#eab308";
+            if (val <= 1000) return "#f97316";
+            return "#ef4444";
         }
-    });
-</script>
 
+        function getTempColor(val) {
+            const minTemp = 18;
+            const maxTemp = 32;
+
+            let clamped = Math.max(minTemp, Math.min(maxTemp, val));
+            let ratio = (clamped - minTemp) / (maxTemp - minTemp);
+            let hue = 240 - (ratio * 240);
+
+            return `hsl(${hue}, 85%, 45%)`;
+        }
+
+        function getRhColor(val) {
+            if (val < 40) return "#f97316";
+            if (val <= 60) return "#10b981";
+            if (val <= 70) return "#eab308";
+            return "#ef4444";
+        }
+
+        // 5. Update UI Functions
+        function updateSensorUI() {
+            document.getElementById("pm25").innerText = PM25;
+            document.getElementById("co2").innerText = Math.round(CO2);
+            document.getElementById("temp").innerText = typeof TEMP === 'number' ? TEMP.toFixed(1) : TEMP;
+            document.getElementById("rh").innerText = typeof RH === 'number' ? RH.toFixed(1) : RH;
+
+            document.getElementById("pm25").style.color = getPm25Color(PM25);
+            document.getElementById("co2").style.color = getCo2Color(CO2);
+            document.getElementById("temp").style.color = getTempColor(TEMP);
+            document.getElementById("rh").style.color = getRhColor(RH);
+        }
+
+        function calculateAirQuality() {
+            let imgPath = "1.png";
+            let text = "อากาศดีเยี่ยม";
+            let statusColor = "#0284c7";
+
+            if (PM25 > 35 || CO2 > 1000) {
+                imgPath = "5.png";
+                text = "อันตรายต่อสุขภาพ";
+                statusColor = "#ef4444";
+            } else if (PM25 > 25 || CO2 > 800) {
+                imgPath = "4.png";
+                text = "อากาศเริ่มไม่ดี";
+                statusColor = "#f97316";
+            } else if (PM25 > 20 || CO2 > 600) {
+                imgPath = "3.png";
+                text = "อากาศปานกลาง";
+                statusColor = "#eab308";
+            } else if (PM25 > 15 || CO2 > 400) {
+                imgPath = "2.png";
+                text = "อากาศดี";
+                statusColor = "#10b981";
+            } else {
+                imgPath = "1.png";
+                text = "อากาศดีเยี่ยม";
+                statusColor = "#0284c7";
+            }
+
+            document.getElementById("emoji").src = imgPath;
+            document.getElementById("statusText").innerHTML = text;
+            document.getElementById("statusText").style.color = statusColor;
+        }
+
+        // 6. Firebase Realtime Database Listener
+        const envRef = ref(database, 'Environment/Current');
+        onValue(envRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                PM25 = data.pm25 !== undefined ? data.pm25 : 0;
+                CO2 = data.co2 !== undefined ? data.co2 : 0;
+                TEMP = data.temperature !== undefined ? data.temperature : 0;
+                RH = data.humidity !== undefined ? data.humidity : 0;
+
+                updateSensorUI();
+                calculateAirQuality();
+            }
+        });
+    </script>
 </body>
 </html>
