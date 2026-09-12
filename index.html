@@ -3,17 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Air Quality Monitor By.yang</title>
-    
-    <!-- Fonts -->
+    <title>Air Quality Monitor By.Yang</title>
     <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600&family=Prompt:wght@400;500;600;700&family=Fredoka:wght@600&display=swap" rel="stylesheet">
     
     <style>
-        /* ==========================================
-           1. ROOT & GLOBAL STYLES (Pink Theme Backgrounds Only)
-           ========================================== */
         :root {
-            /* เปลี่ยนเฉพาะสีธีมพื้นหลัง/กรอบเป็นสีชมพู */
             --bg-main: #fff0f5;
             --text-dark: #2b3a4a;
             --text-light: #607d8b;
@@ -44,10 +38,6 @@
             padding: 30px;
             overflow: auto;
         }
-
-        /* ==========================================
-           2. MAIN LAYOUT
-           ========================================== */
         .dashboard {
             width: 100%;
             max-width: 1650px;
@@ -63,10 +53,6 @@
             justify-content: space-between;
             box-shadow: 0 30px 60px rgba(236, 72, 153, 0.15);
         }
-
-        /* ==========================================
-           3. HEADER SECTION
-           ========================================== */
         .header {
             display: flex;
             justify-content: center;
@@ -118,10 +104,6 @@
             color: var(--pink-dark);
             font-family: 'Fredoka', 'Mitr', sans-serif;
         }
-
-        /* ==========================================
-           4. CONTENT AREA
-           ========================================== */
         .main {
             display: grid;
             grid-template-columns: 1fr 1.25fr;
@@ -131,8 +113,6 @@
             z-index: 2;
             align-items: center;
         }
-
-        /* --- Status Card --- */
         .status-card {
             background: linear-gradient(180deg, #ffffff 0%, var(--pink-bg) 100%);
             border: 5px solid var(--pink-border);
@@ -207,11 +187,9 @@
         .status-text {
             font-size: 2.25rem;
             font-weight: 600;
-            color: #0284c7; /* คงค่าเริ่มต้นแบบเดิม */
+            color: #0284c7;
             transition: color 0.8s ease;
         }
-
-        /* --- Sensor Grid --- */
         .sensor-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -273,7 +251,7 @@
         .sensor-value {
             font-size: 4.5rem;
             font-weight: 700;
-            color: #0284c7; /* คงค่าเริ่มต้นแบบเดิม */
+            color: #0284c7;
             font-family: 'Fredoka', 'Mitr', sans-serif;
             line-height: 1;
             transition: color 0.8s ease;
@@ -293,10 +271,6 @@
             color: var(--text-light);
             font-weight: 600;
         }
-
-        /* ==========================================
-           5. RESPONSIVE DESIGN (Mobile & Tablet)
-           ========================================== */
         @media (max-width: 900px) {
             body {
                 padding: 12px;
@@ -454,10 +428,7 @@
                 🕒 <span id="currentTime" class="time">--:--:--</span>
             </div>
         </header>
-
-        <!-- MAIN CONTENT -->
         <main class="main">
-            <!-- STATUS CARD -->
             <section class="status-card">
                 <div class="emoji-wrap">
                     <div class="emoji-bg-glow"></div>
@@ -469,10 +440,7 @@
                     </div>
                 </div>
             </section>
-
-            <!-- SENSOR GRID -->
             <section class="sensor-grid">
-                <!-- PM2.5 -->
                 <div class="sensor">
                     <div class="sensor-header">
                         <div class="sensor-icon-bg">💨</div>
@@ -485,8 +453,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- CO2 -->
                 <div class="sensor">
                     <div class="sensor-header">
                         <div class="sensor-icon-bg">🌱</div>
@@ -499,8 +465,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Temperature -->
                 <div class="sensor">
                     <div class="sensor-header">
                         <div class="sensor-icon-bg">🌡️</div>
@@ -513,8 +477,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Humidity -->
                 <div class="sensor">
                     <div class="sensor-header">
                         <div class="sensor-icon-bg">💧</div>
@@ -530,13 +492,9 @@
             </section>
         </main>
     </div>
-
-    <!-- FIREBASE & APPLICATION SCRIPT -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-        // 1. Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDOOY6wItzrFcQIZ6EuueD_ta7w5IRmuVU",
             authDomain: "air-quality-dt.firebaseapp.com",
@@ -550,8 +508,6 @@
 
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
-
-        // 2. Real-time Clock Function
         function updateClock() {
             const now = new Date();
             const dateOptions = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -561,13 +517,11 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // 3. Sensor State Variables
         let PM25 = 0;
         let CO2 = 0;
         let TEMP = 0;
         let RH = 0;
 
-        // 4. Color Calculation Functions (คงค่าต้นฉบับดั้งเดิมตรงนี้)
         function getPm25Color(val) {
             if (val <= 12) return "#0284c7";
             if (val <= 25) return "#10b981";
@@ -600,7 +554,6 @@
             return "#ef4444";
         }
 
-        // 5. Update UI Functions
         function updateSensorUI() {
             document.getElementById("pm25").innerText = PM25;
             document.getElementById("co2").innerText = Math.round(CO2);
@@ -620,23 +573,23 @@
 
             if (PM25 > 35 || CO2 > 1000) {
                 imgPath = "5.png";
-                text = "อันตรายต่อสุขภาพ";
+                text = "OPD ชั้น 1";
                 statusColor = "#ef4444";
             } else if (PM25 > 25 || CO2 > 800) {
                 imgPath = "4.png";
-                text = "อากาศเริ่มไม่ดี";
+                text = "OPD ชั้น 1";
                 statusColor = "#f97316";
             } else if (PM25 > 20 || CO2 > 600) {
                 imgPath = "3.png";
-                text = "อากาศปานกลาง";
+                text = "OPD ชั้น 1";
                 statusColor = "#eab308";
             } else if (PM25 > 15 || CO2 > 400) {
                 imgPath = "2.png";
-                text = "อากาศดี";
+                text = "OPD ชั้น 1";
                 statusColor = "#10b981";
             } else {
                 imgPath = "1.png";
-                text = "อากาศดีเยี่ยม";
+                text = "OPD ชั้น 1";
                 statusColor = "#0284c7";
             }
 
@@ -645,7 +598,6 @@
             document.getElementById("statusText").style.color = statusColor;
         }
 
-        // 6. Firebase Realtime Database Listener
         const envRef = ref(database, 'Environment/Current');
         onValue(envRef, (snapshot) => {
             const data = snapshot.val();
